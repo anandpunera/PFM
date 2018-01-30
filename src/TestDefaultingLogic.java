@@ -12,9 +12,16 @@ public class TestDefaultingLogic {
     }
 
     private static void testDefaultingLogic() {
-        defaultLogicPFM.populateArtifacts();
-        System.out.println(defaultLogicPFM.getmSetOfSupportedPFM());
-        System.out.println(defaultLogicPFM.getMapOfDefaultingLogic());
+        //displayAllArtifacts();
+        System.out.println(" defaults "+ defaultLogicPFM.getDefaultForPFM("IT"));
+    }
+
+    private static void displayAllArtifacts(){
+        System.out.println(" Supported PFMs " + defaultLogicPFM.getmSetOfSupportedPFM());
+        System.out.println(" Defaulting Logic " + defaultLogicPFM.getMapOfDefaultingLogic());
+        System.out.println(" Launch Order " + defaultLogicPFM.getMarketsLaunchOrder());
+        System.out.println(" Beta : " + defaultLogicPFM.getmSetOfBetaSupportedPFM());
+        System.out.println(" Tenative supportable : " + defaultLogicPFM.getmSetOfTentativeSupportedPFM());
     }
 }
 
