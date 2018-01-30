@@ -22,7 +22,7 @@ public class DefaultLogicPFM {
     public String idme_mfg = "en_IN";
     public String currentLaunch;
 
-    public static List<String> defaultAvailableForThisSet;// = new LinkedHashSet<>(Arrays.asList("US","UK","DE","IN","JP","CA","AU","FR","IT","ES","MX","CN","BR","NL"));
+    public List<String> marketsLaunchOrder = new ArrayList<>(Arrays.asList("US","UK","DE","IN","JP","CA","AU","FR","IT","ES","MX","CN","BR","NL"));
     public static Set<String> currentMarkets = new LinkedHashSet<>(Arrays.asList("UK","FR"));
     public static Set<String> betaMarkets = new LinkedHashSet<>(Arrays.asList("ES","IT"));
     public static Set<String> tentativeMarkets = new LinkedHashSet<>(Arrays.asList("UK","DE","IN","JP","CA","AU","IT","MX","CN","BR","NL"));
@@ -30,8 +30,6 @@ public class DefaultLogicPFM {
     public List<String> getMarketsLaunchOrder() {
         return marketsLaunchOrder;
     }
-
-    public List<String> marketsLaunchOrder;
 
     public Set<String> getmSetOfSupportedPFM() {
         return mSetOfSupportedPFM;
@@ -59,13 +57,12 @@ public class DefaultLogicPFM {
 
     public void initializeArtifacts() {
         JSONObject defaultJson;
-        ultimateDefault = "US";
         mSetOfTentativeSupportedPFM = tentativeMarkets;
         mSetOfSupportedPFM = currentMarkets;
         mSetOfBetaSupportedPFM = betaMarkets;
         mapOfDefaultingLogic = new HashMap<String, String>();
         try {
-            String text = new String(Files.readAllBytes(Paths.get("/home/local/ANT/punanand/PFM/src/res/logic.json")));
+            String text = new String(Files.readAllBytes(Paths.get("/home/local/ANT/punanand/Videos/PFM/src/res/logic.json")));
             defaultJson = new JSONObject(text);
             Iterator<String> keys = defaultJson.keys();
             defaultLogicTable = new LinkedHashMap<>();
@@ -82,6 +79,17 @@ public class DefaultLogicPFM {
             throw new RuntimeException("Exception in reading defaults JSON", e);
         }
         updateSetOFSupportedPFM();
+        initializeUltimatedefault();
+    }
+
+    private void initializeUltimatedefault() {
+        for (String pfm: marketsLaunchOrder){
+            if(mSetOfSupportedPFM.contains(pfm)){
+                ultimateDefault = pfm;
+                break;
+            }
+        }
+        populateArtifacts();
     }
 
     public String getDefaultForPFM(String pfm){
@@ -96,10 +104,6 @@ public class DefaultLogicPFM {
         currentLaunch = latestLaunchPFM;
         mSetOfSupportedPFM.add(latestLaunchPFM);
         mSetOfTentativeSupportedPFM.remove(latestLaunchPFM);
-        marketsLaunchOrder = new ArrayList<>();
-        marketsLaunchOrder.addAll(mSetOfSupportedPFM);
-        marketsLaunchOrder.addAll(mSetOfTentativeSupportedPFM);
-        populateArtifacts();
     }
 
     public void populateArtifacts() {
@@ -114,7 +118,7 @@ public class DefaultLogicPFM {
                 while (true){
 
                     List<String> list= defaultLogicTable.get(pfm);
-                    System.out.println(list+" "+count+ " "+pfm );
+//                    System.out.println(list+" "+count+ " "+pfm );
                     if(++count >= list.size()){
                         try {
                             throw new Exception(" Defaulting Logic is wrong.. No converging default PFM ");
@@ -123,27 +127,23 @@ public class DefaultLogicPFM {
                             break;
                         }
                     }
-
-                    if(marketsLaunchOrder.indexOf(pfm) < list.size() && mSetOfSupportedPFM.contains(list.get(marketsLaunchOrder.indexOf(pfm)))){
-                        mapOfDefaultingLogic.put(pfmCurrent, list.get(marketsLaunchOrder.indexOf(pfm)));
-                        break;
-                    }
-                    else if(marketsLaunchOrder.indexOf(pfm) >= list.size() || count>0 || pfm == list.get(marketsLaunchOrder.indexOf(currentLaunch))){
-                        //pfm = currentLaunch;
-                        int index = list.indexOf(marketsLaunchOrder.indexOf(currentLaunch));
-                        while(index >= 0 && mSetOfSupportedPFM.contains(list.get(index)) == false){
-                            index--;
-                        }
-                        if(index < 0 ) {
-                            mapOfDefaultingLogic.put(pfmCurrent, ultimateDefault);
-                        }
-                        else {
-                            mapOfDefaultingLogic.put(pfmCurrent, list.get(index));
-                        }
+                    if(marketsLaunchOrder.indexOf(currentLaunch) < list.size() && mSetOfSupportedPFM.contains(list.get(marketsLaunchOrder.indexOf(currentLaunch)))){
+                        mapOfDefaultingLogic.put(pfmCurrent, list.get(marketsLaunchOrder.indexOf(currentLaunch)));
                         break;
                     }
                     else {
-                        continue;
+                        //System.out.println(list+" "+ultimateDefault);
+                        int index = marketsLaunchOrder.indexOf(currentLaunch) -1;
+                        while(index >= 0 && mSetOfSupportedPFM.contains(list.get(index)) == false){
+                            index--;
+                        }
+                        if(index >= 0 && mSetOfSupportedPFM.contains(list.get(index))) {
+                            mapOfDefaultingLogic.put(pfmCurrent, list.get(index));
+                        }
+                        else {
+                            mapOfDefaultingLogic.put(pfmCurrent, ultimateDefault);
+                        }
+                        break;
                     }
                 }
             }
