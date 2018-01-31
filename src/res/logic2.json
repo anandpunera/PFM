@@ -1,0 +1,19 @@
+{
+  "US": ["US", "US", "US", "US", "US", "US", "US", "US", "US", "US", "US", "US", "US"],
+  "UK": ["US", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK"],
+  "DE": ["US", "UK", "DE", "DE", "DE", "DE", "DE", "DE", "DE", "DE", "DE", "DE", "DE"],
+  "IN": ["US", "US", "US", "IN", "IN", "IN", "IN", "IN", "IN", "IN", "IN", "IN", "IN"],
+  "JP": ["IN", "US", "US", "DE", "IN", "IN", "IN", "IN", "IN", "IT", "IT", "IT", "IT"],
+  "CA": ["US", "US", "US", "US", "US", "CA", "CA", "CA", "CA", "CA", "CA", "CA", "CA"],
+  "AU": ["US", "UK", "DE", "US", "US", "US", "AU", "AU", "AU", "AU", "AU", "AU", "AU"],
+  "FR": ["US", "UK", "UK", "UK", "UK", "UK", "UK", "FR", "FR", "FR", "FR", "FR", "FR"],
+  "IT": ["US", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "IT", "IT", "IT", "IT"],
+  "ES": ["US", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "ES", "ES", "ES"],
+  "MX": ["US", "US", "US", "US", "US", "US", "US", "US", "US", "US", "MX", "MX", "MX"],
+  "CN": ["US", "US", "US", "US", "JP", "JP", "JP", "JP", "JP", "JP", "ES", "CN", "CN"],
+  "BR": ["US", "US", "US", "US", "US", "US", "US", "US", "US", "US", "US", "US", "BR"],
+  "NL": ["US", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK"]
+}
+
+//"AU": ["US", "UK", "US", "IN", "JP", "JP", "AU", "AU", "AU", "AU", "AU", "AU", "AU"], failure
+//"JP": ["IN"," "," US"," DE","IN","IN","IN","IN","IN"],"IN"
